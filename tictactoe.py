@@ -53,7 +53,7 @@ class Gui(Frame):
     def create_userinput(self):
         self.input_label = Label(self.frame_userinput, font=self.font1, text="Player 1 \'X\'")
         self.input_label.grid(row=0, column=0)
-        self.ok_button = Button(self.frame_userinput, text="Again",
+        self.ok_button = Button(self.frame_userinput, text="Retry",
                                 font=self.font1, command=self.again, padx=20)
         self.ok_button.grid(row=0, column=1)
     
