@@ -8,6 +8,7 @@
 # Copyright:    None
 # Licence:      open source
 #-------------------------------------------------------------------------------
+            
 from tkinter import Tk, Frame, Button, Entry, Canvas, Label
 import time
             
@@ -88,15 +89,20 @@ class Gui(Frame):
             
     def check_table(self):
         check = self.game.test_check(self.backup_pressed)
+        print("check ", check)
         if check:
             if self.cur_player:
                 print("Player2 wins")
                 self.input_label.configure(text="Player 2 wins", bg="Lime")
                 self.disable_buttons()
+                self.highlight_buttons(check[1])
             else:
                 print("Player1 wins")
                 self.input_label.configure(text="Player 1 wins", bg="Lime")
                 self.disable_buttons()
+                self.highlight_buttons(check[1])
+                
+                
         if self.counter_pressed == 9 and check == None:
             print("Tie")
             self.input_label.configure(text="Tie", bg="salmon")
@@ -105,6 +111,13 @@ class Gui(Frame):
     def disable_buttons(self):
         for i in self.button_list:
             i.configure(state="disabled")
+    
+    def highlight_buttons(self, buttons_positions):
+        for i in buttons_positions:
+            self.button_list[i].configure(fg="sky blue", state="normal", command=self.passing)
+    
+    def passing(self):
+        pass
         
 class Game():
     def __init__(self, button_list=None):
@@ -136,7 +149,7 @@ class Game():
         position = table[-1][0] # starts from 0
         flag = table[-1][1]    #variable for sought sign
         loop = len(self.list_lookup[position])
-        
+        print("ssss", self.list_lookup[position])
         tmp_list = []
         for i in range(loop):
             for j in range(2):
@@ -146,7 +159,10 @@ class Game():
                     tmp_list.append(tmp_answer)
             if len(tmp_list) == 2:
                 # print("Correct")
-                return True
+                win_positions = self.list_lookup[position][i]
+                win_positions += (position,)
+                print("win_positions ", win_positions)
+                return True, win_positions
             else:
                 tmp_list = []
         
